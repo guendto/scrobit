@@ -1,0 +1,98 @@
+/*
+ * -*- coding: utf-8 -*-
+ *
+ * Copyright
+ *  2021 Toni Gündoğdu
+ *
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+h1 {
+  padding: 10px;
+  margin-bottom: 0;
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 25px;
+  font-size: 20px;
+}
+
+h3 {
+  font-size: 16px;
+}
+
+li {
+  margin: 5px;
+}
+
+.app {
+  text-align: center;
+}
+
+.header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.date-picker {
+  font-size: 16px;
+  margin: 5px;
+  text-align: center;
+  min-width: 10vh;
+}
+
+[class*="button-"],
+[class*="label-"] {
+  background-color: #326b99;
+  border: none;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 12px;
+  border-radius: 8px;
+}
+
+.button-round {
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.button-round:hover {
+  background-color: #18629e;
+}
+
+[class*="label-"] {
+  border-radius: 12px;
+  font-size: 20px;
+  padding: 24px;
+  text-align: left;
+  margin: 14px;
+}
+
+.label-warning {
+  background-color: red;
+}
+
+.date-range {
+  font-weight: bolder;
+}
+
+.link {
+  color: #61dafb;
+}
+
+.footer {
+  font-size: calc(10px + 1vmin);
+  margin-top: 10px;
+}
