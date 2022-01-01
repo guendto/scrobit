@@ -24,7 +24,6 @@ import profitHelper from "./helpers/profit.helper";
 import tradingHelper from "./helpers/trading.helper";
 import trendHelper from "./helpers/trend.helper";
 // import logger from "./logger";
-
 // import data from "../localdata/range-2020-01-19to2020-01-21.json";
 
 function App() {
@@ -35,7 +34,12 @@ function App() {
   const [showResults, setShowResults] = useState(false);
   const [results, setResults] = useState({});
 
-  const toDateString = (date) => dayjs(date).format("YYYY-MM-DD");
+  /**
+   * Convert epoch to ISO-8606 date string.
+   * @param {Number} epoch the unix timestamp
+   * @returns a string
+   */
+  const toDateString = (epoch) => dayjs(epoch).format("YYYY-MM-DD");
 
   const handleAnalyze = async () => {
     try {
