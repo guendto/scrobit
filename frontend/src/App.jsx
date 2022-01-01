@@ -130,15 +130,7 @@ function App() {
   const SelectDateRangeView = () => (
     <div className="date-range-view">
       <SelectDateRange />
-      <div>
-        <button
-          onClick={() => handleAnalyze()}
-          className="button-round"
-          type="button"
-        >
-          Analyze now
-        </button>
-      </div>
+      <AnalyzeButton text="Analyze now" onClick={handleAnalyze} />
       <div className="footer">
         Market chart history data provided by{" "}
         <a
@@ -188,8 +180,12 @@ function App() {
     );
   };
 
-  const ResultsView = () => (
-    <div>
+  /**
+   * Layout the results.
+   * @component
+   */
+  const Results = () => (
+    <>
       <div className="label-trend">
         The <b>longest</b> bearish downward trend took{" "}
         {results.trend.longestBearish} days.
@@ -200,21 +196,46 @@ function App() {
         {results.trading.highestVolume.toLocaleString()}€.
       </div>
       <TimeTravelOptions />
+    </>
+  );
+
+  /**
+   * The analyze button.
+   * @component
+   */
+  const AnalyzeButton = ({ text, onClick }) => (
+    <button className="button-round " type="button" onClick={onClick}>
+      {text}
+    </button>
+  );
+
+  /**
+   * The "data processed" (date-range) footer.
+   * @component
+   */
+  const DataProcessedFooter = () => (
+    <div className="footer">
+      Data processed
+      <div className="date-range">
+        {toDateString(dateRange.startDate)} -{" "}
+        {toDateString(dateRange.endDate)}
+      </div>
+    </div>
+  );
+
+  /**
+   * Display the results.
+   * @component
+   */
+  const ResultsView = () => (
+    <div>
+      <Results />
       <div>
-        <button
-          className="button-round "
-          type="button"
+        <AnalyzeButton
+          text="Analyze again"
           onClick={() => setShowResults(false)}
-        >
-          Analyze again
-        </button>
-        <div className="footer">
-          Data processed
-          <div className="date-range">
-            {toDateString(dateRange.startDate)} -{" "}
-            {toDateString(dateRange.endDate)}
-          </div>
-        </div>
+        />
+        <DataProcessedFooter />
       </div>
     </div>
   );
