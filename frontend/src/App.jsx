@@ -59,9 +59,6 @@ function App() {
         throw new Error("No data, try a different date range");
       }
 
-      const range = profitHelper.buyLowSellHighRange(data);
-      const { isProfitable } = range;
-
       const [time, volume] = tradingHelper.highestVolume(data);
 
       setResults({
@@ -72,10 +69,7 @@ function App() {
           highestVolume: volume.toLocaleString(),
           date: toDateString(time),
         },
-        whenToBuyAndSell: {
-          isProfitable,
-          range,
-        },
+        whenToBuyAndSell: profitHelper.buyLowSellHighRange(data),
       });
 
       setShowResults(true);
@@ -168,8 +162,10 @@ function App() {
   );
 
   const RecommendedBuyAndSellDates = () => {
-    const { range } = results.whenToBuyAndSell;
-    const message = profitHelper.toHumanReadableMessage(range);
+    const { whenToBuyAndSell } = results;
+
+    const message =
+      profitHelper.toHumanReadableMessage(whenToBuyAndSell);
 
     return (
       <div className="label-profit">
