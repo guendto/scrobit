@@ -98,6 +98,10 @@ function App() {
     }));
   };
 
+  /**
+   * Display the date range pickers.
+   * @component
+   */
   const SelectDateRange = () => (
     <>
       From
@@ -126,6 +130,10 @@ function App() {
     </>
   );
 
+  /**
+   * Display the date range selector view.
+   * @component
+   */
   const SelectDateRangeView = () => (
     <div className="date-range-view">
       <SelectDateRange />
