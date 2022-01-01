@@ -24,7 +24,7 @@ import profitHelper from "./helpers/profit.helper";
 import tradingHelper from "./helpers/trading.helper";
 import trendHelper from "./helpers/trend.helper";
 // import logger from "./logger";
-// import data from "../localdata/range-2020-01-19to2020-01-21.json";
+// import data from "../data/range-2020-01-19to2020-01-21.json";
 
 function App() {
   const [dateRange, setDateRange] = useState({
@@ -41,6 +41,9 @@ function App() {
    */
   const toDateString = (epoch) => dayjs(epoch).format("YYYY-MM-DD");
 
+  /**
+   * Handle the "Analyze now" event.
+   */
   const handleAnalyze = async () => {
     try {
       const { startDate, endDate } = dateRange;
@@ -57,11 +60,9 @@ function App() {
       }
 
       const range = profitHelper.buyLowSellHighRange(data);
-      const { buy, sell, isProfitable } = range;
+      const { isProfitable } = range;
 
       const [time, volume] = tradingHelper.highestVolume(data);
-      const [sellTime, sellPrice] = sell || [0, 0];
-      const [buyTime, buyPrice] = buy || [0, 0];
 
       setResults({
         trend: {
@@ -72,14 +73,6 @@ function App() {
           date: toDateString(time),
         },
         whenToBuyAndSell: {
-          buy: {
-            price: buyPrice.toLocaleString(),
-            date: toDateString(buyTime),
-          },
-          sell: {
-            price: sellPrice.toLocaleString(),
-            date: toDateString(sellTime),
-          },
           isProfitable,
           range,
         },
