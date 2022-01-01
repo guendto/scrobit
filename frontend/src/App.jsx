@@ -102,7 +102,7 @@ function App() {
    * Display the date range pickers.
    * @component
    */
-  const SelectDateRange = () => (
+  const DateRangePickers = () => (
     <>
       From
       <DatePicker
@@ -136,7 +136,7 @@ function App() {
    */
   const SelectDateRangeView = () => (
     <div className="date-range-view">
-      <SelectDateRange />
+      <DateRangePickers />
       <AnalyzeButton text="Analyze now" onClick={handleAnalyze} />
       <div className="footer">
         Market chart history data provided by{" "}
