@@ -12,7 +12,7 @@
 
 import dayjs from "dayjs";
 import validate from "./validate.helper.js";
-import logger from "../logger.js";
+// import logger from "../logger.js";
 
 /**
  * Determine the most profitable time to buy low, and sell high within
@@ -21,8 +21,8 @@ import logger from "../logger.js";
  * - adjusts the date range based on the time to sell
  * - stays within the given date range
  * @param {Array} data the CoinGecko market chart data
- * @returns {Object} the buy/sell dates and prices, and whether it is profitable
- * @note the returned object contains also the "profitable" flag
+ * @returns {Object} the buy/sell dates and prices, and whether the rnage is profitable
+ * @note the returned object contains also the "isProfitable" flag
  * @throws {Error} if data validation failed
  */
 const buyLowSellHighRange = (data) => {
@@ -31,31 +31,22 @@ const buyLowSellHighRange = (data) => {
   const findHighest = ([prevTime, prevPrice], [time, price]) =>
     prevPrice > price ? [prevTime, prevPrice] : [time, price];
 
-  const findLowest = ([prevTime, prevPrice], [time, price]) =>
-    prevPrice < price ? [prevTime, prevPrice] : [time, price];
-
-  const highestPrice = data.prices.reduce(findHighest); // peak price
-  logger.debug("highestPrice", highestPrice);
-
-  logger.debug("beep", data.prices[0]);
-
-  const highestIndex = data.prices.findIndex(
-    ([time]) => time === highestPrice[0] // [0]=time
+  const sell = data.prices.reduce(findHighest);
+  const endAt = data.prices.findIndex(
+    ([time]) => time === sell[0] // [0]=time
   );
-  logger.debug("highestIndex", highestIndex);
 
-  if (highestIndex <= 0) {
-    logger.warn("not profitable date range");
+  if (endAt <= 0) {
     return { isProfitable: false };
   }
 
-  const adjustedDateRange = data.prices.slice(0, highestIndex);
-  logger.debug("adjustedDateRange", adjustedDateRange);
+  const findLowest = ([prevTime, prevPrice], [time, price]) =>
+    prevPrice < price ? [prevTime, prevPrice] : [time, price];
 
-  const lowestPrice = adjustedDateRange.reduce(findLowest);
-  logger.debug("lowestPrice", lowestPrice);
+  const adjustedRange = data.prices.slice(0, endAt);
+  const buy = adjustedRange.reduce(findLowest);
 
-  return { buy: lowestPrice, sell: highestPrice, isProfitable: true };
+  return { buy, sell, isProfitable: true };
 };
 
 /**
