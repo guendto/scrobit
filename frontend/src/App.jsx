@@ -9,7 +9,7 @@
  */
 
 import React, { useState } from "react";
-import DatePicker from "react-datepicker";
+
 import dayjs from "dayjs";
 
 // while building (with vite) for production:
@@ -18,6 +18,9 @@ import dayjs from "dayjs";
 //   ..
 import "react-datepicker/dist/react-datepicker.css";
 import "./App.css";
+
+import AnalyzeButton from "./components/AnalyzeButton";
+import DateRangeForm from "./components/DateRangeForm";
 
 import coinGeckoService from "./services/coingecko.service";
 import profitHelper from "./helpers/profit.helper";
@@ -94,67 +97,12 @@ function App() {
   /**
    * Handle date range change event.
    */
-  const handleDateRange = ({ name, value }) => {
+  const handleDateRangeChanged = ({ name, value }) => {
     setDateRange((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
-
-  /**
-   * Display the date range pickers.
-   * @component
-   */
-  const DateRangePickers = () => (
-    <>
-      From
-      <DatePicker
-        className="date-picker"
-        selected={dateRange.startDate}
-        onChange={(date) =>
-          handleDateRange({ name: "startDate", value: date })
-        }
-        selectsStart
-        startDate={dateRange.startDate}
-        endDate={dateRange.endDate}
-      />
-      To
-      <DatePicker
-        className="date-picker"
-        selected={dateRange.endDate}
-        onChange={(date) =>
-          handleDateRange({ name: "endDate", value: date })
-        }
-        selectsEnd
-        startDate={dateRange.startDate}
-        endDate={dateRange.endDate}
-        minDate={dateRange.startDate}
-      />
-    </>
-  );
-
-  /**
-   * Display the date range selector view.
-   * @component
-   */
-  const SelectDateRangeView = () => (
-    <div className="date-range-view">
-      <DateRangePickers />
-      <AnalyzeButton text="Analyze now" onClick={handleAnalyze} />
-      <div className="footer">
-        Market chart history data provided by{" "}
-        <a
-          className="link"
-          href="https://coingecko.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          CoinGecko
-        </a>
-        .
-      </div>
-    </div>
-  );
 
   /**
    * Display the recommended dates to buy cheap and sell for profit.
@@ -207,16 +155,6 @@ function App() {
       </div>
       <TimeTravelOptions />
     </>
-  );
-
-  /**
-   * The analyze button.
-   * @component
-   */
-  const AnalyzeButton = ({ text, onClick }) => (
-    <button className="button-round " type="button" onClick={onClick}>
-      {text}
-    </button>
   );
 
   /**
@@ -274,7 +212,15 @@ function App() {
           description="the tool to analyze bitcoin market value for the given date
           range"
         />
-        {showResults ? <ResultsView /> : <SelectDateRangeView />}
+        {!showResults ? (
+          <DateRangeForm
+            dateRange={dateRange}
+            onAnalyze={handleAnalyze}
+            onDateRangeChanged={handleDateRangeChanged}
+          />
+        ) : (
+          <ResultsView />
+        )}
       </header>
       <ForkMeRibbon url="https://github.com/guendto/scrobit" />
     </div>
