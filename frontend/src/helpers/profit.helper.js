@@ -57,7 +57,7 @@ const buyLowSellHighRange = (data) => {
 const toHumanReadableMessage = (range) => {
   if (!range.isProfitable) {
     return {
-      error: `This is a non-profitable date range. The price is only falling in this period of time.`,
+      warning: `A nonprofitable date range. Choose a different one.`,
     };
   }
 
