@@ -56,7 +56,7 @@ function App() {
       const { data } = res;
 
       if (!data.prices || data.prices.length === 0) {
-        throw new Error("No data, try another date rate");
+        throw new Error("No data, try a different date range");
       }
 
       const range = profitHelper.buyLowSellHighRange(data);
