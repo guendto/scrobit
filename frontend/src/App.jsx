@@ -91,6 +91,9 @@ function App() {
     </>
   );
 
+  /**
+   * Handle date range change event.
+   */
   const handleDateRange = ({ name, value }) => {
     setDateRange((prevState) => ({
       ...prevState,
