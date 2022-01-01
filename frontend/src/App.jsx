@@ -79,17 +79,16 @@ function App() {
     }
   };
 
-  const Title = () => (
-    <div>
-      <h1>scrobit</h1>
-      <h2>Scrooge&apos;s bitcoin market analyzer</h2>
-      {!showResults && (
-        <h3>
-          (the tool to analyze bitcoin market value for the given date
-          range)
-        </h3>
-      )}
-    </div>
+  /**
+   * Display the header containing title, subtitle and description.
+   * @component
+   */
+  const TitleHeader = ({ title, subtitle, description }) => (
+    <>
+      <h1>{title}</h1>
+      <h2>{subtitle}</h2>
+      {!showResults && <h3>({description})</h3>}
+    </>
   );
 
   const handleDateRange = ({ name, value }) => {
@@ -240,20 +239,33 @@ function App() {
     </div>
   );
 
+  /**
+   * Fork me on GitHub ribbon.
+   * @component
+   */
+  const ForkMeRibbon = ({ url }) => (
+    <a
+      className="github-fork-ribbon"
+      href={url}
+      data-ribbon="Fork me on GitHub"
+      title="Fork me on GitHub"
+    >
+      Fork me on GitHub
+    </a>
+  );
+
   return (
     <div className="app">
       <header className="header">
-        <Title />
+        <TitleHeader
+          title="scrobit"
+          subtitle="Scrooge's bitcoin market analyzer"
+          description="the tool to analyze bitcoin market value for the given date
+          range"
+        />
         {showResults ? <ResultsView /> : <SelectDateRangeView />}
       </header>
-      <a
-        className="github-fork-ribbon"
-        href="https://github.com/guendto/scrobit"
-        data-ribbon="Fork me on GitHub"
-        title="Fork me on GitHub"
-      >
-        Fork me on GitHub
-      </a>
+      <ForkMeRibbon url="https://github.com/guendto/scrobit" />
     </div>
   );
 }
