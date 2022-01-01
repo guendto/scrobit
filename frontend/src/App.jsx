@@ -169,17 +169,12 @@ function App() {
 
     return (
       <div className="label-profit">
-        <b>Lo and behold</b>, time travel is possible. Buy low and sell
-        high. Simple.
+        Lo and behold! <b>Time travel</b> is a thing! Buy low, sell
+        high.
         <ul>
-          <li>
-            <b>Buy</b> on {message.buy}
-          </li>
-          <li>
-            <b>Sell</b> on {message.sell}
-          </li>
+          <li>Buy on {message.buy}</li>
+          <li>Sell on {message.sell}</li>
         </ul>
-        Now, go make some serious dough.
       </div>
     );
   };
@@ -197,14 +192,13 @@ function App() {
   const ResultsView = () => (
     <div>
       <div className="label-trend">
-        The <i>longest bearish downward trend</i> took{" "}
-        <b>{results.trend.longestBearish} days</b> during this period of
-        time.
+        The <b>longest</b> bearish downward trend took{" "}
+        {results.trend.longestBearish} days.
       </div>
       <div className="label-trading">
-        <b>{results.trading.date}</b> had the{" "}
-        <i>highest trading volume</i> for BTC with total of{" "}
-        <b>{results.trading.highestVolume.toLocaleString()}€</b>.
+        {results.trading.date} had the <b>highest</b> trading volume for
+        BTC with the total of{" "}
+        {results.trading.highestVolume.toLocaleString()}€.
       </div>
       <TimeTravelOptions />
       <div>
