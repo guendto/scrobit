@@ -74,7 +74,7 @@ function App() {
 
       setShowResults(true);
     } catch (error) {
-      // TODO: use a notification, instead.
+      // eslint-disable-next-line no-alert
       window.alert(error);
     }
   };
