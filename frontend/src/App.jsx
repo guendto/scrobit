@@ -21,11 +21,13 @@ import "./App.css";
 
 import AnalyzeButton from "./components/AnalyzeButton";
 import DateRangeForm from "./components/DateRangeForm";
+import TitleHeader from "./components/TitleHeader";
 
 import coinGeckoService from "./services/coingecko.service";
 import profitHelper from "./helpers/profit.helper";
 import tradingHelper from "./helpers/trading.helper";
 import trendHelper from "./helpers/trend.helper";
+
 // import logger from "./logger";
 // import data from "../data/range-2020-01-19to2020-01-21.json";
 
@@ -81,18 +83,6 @@ function App() {
       window.alert(error);
     }
   };
-
-  /**
-   * Display the header containing title, subtitle and description.
-   * @component
-   */
-  const TitleHeader = ({ title, subtitle, description }) => (
-    <>
-      <h1>{title}</h1>
-      <h2>{subtitle}</h2>
-      {!showResults && <h3>({description})</h3>}
-    </>
-  );
 
   /**
    * Handle date range change event.
@@ -211,6 +201,7 @@ function App() {
           subtitle="Scrooge's bitcoin market analyzer"
           description="the tool to analyze bitcoin market value for the given date
           range"
+          showResults={showResults}
         />
         {!showResults ? (
           <DateRangeForm
