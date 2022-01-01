@@ -154,40 +154,39 @@ function App() {
     </div>
   );
 
-  const NonProfitableWarning = () => (
-    <div className="label-warning">
-      This is a <i>non-profitable</i> date range. The price is{" "}
-      <b>only falling</b> in this period of time.
+  /**
+   * Display the recommended dates to buy cheap and sell for profit.
+   * @component
+   */
+  const RecommendTimeTravelDates = ({ message }) => (
+    <div className="label-profit">
+      Lo and behold! <b>Time travel</b> is a thing! Buy low, sell high.
+      <ul>
+        <li>Buy cheap on {message.buy}</li>
+        <li>Sell for profit on {message.sell}</li>
+      </ul>
     </div>
   );
 
-  const RecommendedBuyAndSellDates = () => {
-    const { whenToBuyAndSell } = results;
-
-    const message =
-      profitHelper.toHumanReadableMessage(whenToBuyAndSell);
+  /**
+   * Display the time travel "options"; whether/when to buy/sell.
+   * @component
+   */
+  const TimeTravelOptions = () => {
+    const message = profitHelper.toHumanReadableMessage(
+      results.whenToBuyAndSell
+    );
 
     return (
-      <div className="label-profit">
-        Lo and behold! <b>Time travel</b> is a thing! Buy low, sell
-        high.
-        <ul>
-          <li>Buy on {message.buy}</li>
-          <li>Sell on {message.sell}</li>
-        </ul>
-      </div>
+      <>
+        {!results.whenToBuyAndSell.isProfitable ? (
+          <div className="label-warning">{message.warning}</div>
+        ) : (
+          <RecommendTimeTravelDates message={message} />
+        )}
+      </>
     );
   };
-
-  const TimeTravelOptions = () => (
-    <>
-      {!results.whenToBuyAndSell.isProfitable ? (
-        <NonProfitableWarning />
-      ) : (
-        <RecommendedBuyAndSellDates />
-      )}
-    </>
-  );
 
   const ResultsView = () => (
     <div>
