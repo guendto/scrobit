@@ -19,6 +19,7 @@ import dayjs from "dayjs";
 import "react-datepicker/dist/react-datepicker.css";
 import "./App.css";
 
+import BuyLowSellHighResult from "./components/BuyLowSellHighResult";
 import AnalyzeButton from "./components/AnalyzeButton";
 import DateRangeForm from "./components/DateRangeForm";
 import TitleHeader from "./components/TitleHeader";
@@ -74,7 +75,7 @@ function App() {
           highestVolume: volume.toLocaleString(),
           date: toDateString(time),
         },
-        whenToBuyAndSell: profitHelper.buyLowSellHighRange(data),
+        buyLowSellHighRange: profitHelper.buyLowSellHighRange(data),
       });
 
       setShowResults(true);
@@ -95,40 +96,6 @@ function App() {
   };
 
   /**
-   * Display the recommended dates to buy cheap and sell for profit.
-   * @component
-   */
-  const RecommendTimeTravelDates = ({ message }) => (
-    <div className="label-profit">
-      Lo and behold! <b>Time travel</b> is a thing! Buy low, sell high.
-      <ul>
-        <li>Buy cheap on {message.buy}</li>
-        <li>Sell for profit on {message.sell}</li>
-      </ul>
-    </div>
-  );
-
-  /**
-   * Display the time travel "options"; whether/when to buy/sell.
-   * @component
-   */
-  const TimeTravelOptions = () => {
-    const message = profitHelper.toHumanReadableMessage(
-      results.whenToBuyAndSell
-    );
-
-    return (
-      <>
-        {!results.whenToBuyAndSell.isProfitable ? (
-          <div className="label-warning">{message.warning}</div>
-        ) : (
-          <RecommendTimeTravelDates message={message} />
-        )}
-      </>
-    );
-  };
-
-  /**
    * Layout the results.
    * @component
    */
@@ -143,7 +110,9 @@ function App() {
         BTC with the total of{" "}
         {results.trading.highestVolume.toLocaleString()}€.
       </div>
-      <TimeTravelOptions />
+      <BuyLowSellHighResult
+        buyLowSellHighRange={results.buyLowSellHighRange}
+      />
     </>
   );
 
