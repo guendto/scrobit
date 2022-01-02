@@ -12,45 +12,40 @@
 
 import dayjs from "dayjs";
 import validate from "./validate.helper.js";
-import logger from "../logger.js";
+// import logger from "../logger.js";
 
 /**
  * Determine the longest bearish downward trend.
- * - Uses midnight (zero-hour) data for each day
- * - Includes the data
+ * - Counts only the midnight (00:00 - 00:59) prices of each day
  * @param {Array} data the CoinGecko market chart data
- * @returns
+ * @returns {Number} the longest count in days
  */
 const longestBearishDownward = (data) => {
   validate.hasData(data, "prices");
 
   let [prevTime, prev] = data.prices[0];
-  let longestLen = 0;
-  let currLen = 1;
+  let longest = 0;
+  let counter = 1;
 
   data.prices.forEach(([time, curr], index, arr) => {
-    // const isLast = index === arr.length - 1;
-    const isLast = Object.is(arr.length - 1, index); // es6
-    const currDate = dayjs(time);
+    const isLast = Object.is(arr.length - 1, index);
+    const currTime = dayjs(time);
 
-    const ofSameDay = currDate.date() === dayjs(prevTime).date();
-    const isZeroHour = currDate.hour() === 0;
+    const isSameDay = currTime.date() === dayjs(prevTime).date();
+    const isZeroHour = currTime.hour() === 0;
 
-    if ((isZeroHour || isLast) && !ofSameDay) {
-      if (curr <= prev) {
-        currLen += 1;
-      } else {
-        currLen = 1;
-      }
-      if (currLen > longestLen) {
-        longestLen = currLen;
+    if ((isZeroHour || isLast) && !isSameDay) {
+      counter = curr <= prev ? counter + 1 : 1;
+      if (counter > longest) {
+        longest = counter;
       }
     }
+
     prevTime = time;
     prev = curr;
   });
 
-  return longestLen;
+  return longest;
 };
 
 export default { longestBearishDownward };
