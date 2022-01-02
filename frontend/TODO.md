@@ -2,9 +2,7 @@
 
 - Use a proper notification component for errors
 
-- Split App.jsx into reusable components
-
-- Could use cleanup
+- Use new default dates
 
 - Make BTC and EUR selectable
   - They can be requested from CoinGecko
