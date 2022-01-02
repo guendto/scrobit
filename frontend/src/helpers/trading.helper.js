@@ -15,7 +15,7 @@ import validate from "./validate.helper.js";
 /**
  * Determine the highest trading volume, the volume in euros on that day.
  * @param {Array} data the CoinGecko market chart data
- * @returns an array with the time and the volume
+ * @returns {Array} the time and the volume
  * @throws {Error} if data validation failed
  */
 const highestVolume = (data) => {
