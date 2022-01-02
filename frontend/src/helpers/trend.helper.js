@@ -16,10 +16,9 @@ import validate from "./validate.helper.js";
 
 /**
  * Determine the longest bearish downward trend.
- * - Uses midnight (zero-hour) data for each day
- * - Includes the data
+ * - Counts only the midnight (00:00 - 00:59) prices of each day
  * @param {Array} data the CoinGecko market chart data
- * @returns
+ * @returns {Number} the longest count in days
  */
 const longestBearishDownward = (data) => {
   validate.hasData(data, "prices");
