@@ -33,8 +33,8 @@ import dateHelper from "./helpers/date.helper";
 
 function App() {
   const [dateRange, setDateRange] = useState({
-    startDate: new Date("2021-12-02"),
-    endDate: new Date("2021-12-24"),
+    startDate: new Date("2021-12-01"),
+    endDate: new Date("2021-12-31"),
   });
   const [analysis, setAnalysis] = useState();
 
