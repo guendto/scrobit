@@ -12,7 +12,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import DatePicker from "react-datepicker";
 
-import DateRangeType from "./types/DateRange";
+import DateRangeType from "./types/DateRangeType";
 
 /**
  * Display the date range selectors.

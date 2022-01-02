@@ -13,7 +13,7 @@ import PropTypes from "prop-types";
 
 import DateRangeSelectors from "./DateRangeSelectors";
 import AnalyzeButton from "./AnalyzeButton";
-import DateRangeType from "./types/DateRange";
+import DateRangeType from "./types/DateRangeType";
 
 /**
  * Display the date range selector view.
