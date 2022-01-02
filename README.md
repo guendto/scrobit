@@ -32,7 +32,7 @@ Serve using express.
 
 ```shell
 cd frontend
-pnpm i -P
+pnpm i
 pnpm build && mv public ..
 cd ..
 pnpm start  # and open http://localhost:3001
