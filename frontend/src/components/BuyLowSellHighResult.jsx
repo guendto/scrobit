@@ -27,8 +27,8 @@ const BuyLowSellHighResult = ({ buyLowSellHighRange }) => {
     <>
       {buyLowSellHighRange.isProfitable ? (
         <div className="label-profit">
-          Lo and behold! <b>Time travel</b> is a thing! Buy low, sell
-          high.
+          Lo and behold! <b>Time travel</b> is a thing now! Buy low,
+          sell high.
           <ul>
             <li>Buy cheap on {message.buy}</li>
             <li>Sell for profit on {message.sell}</li>
