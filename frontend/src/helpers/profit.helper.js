@@ -22,7 +22,7 @@ import validate from "./validate.helper.js";
  * - stays within the given date range
  * @param {Array} data the CoinGecko market chart data
  * @returns {Object} the buy/sell dates and prices, and whether the rnage is profitable
- * @note the returned object contains also the "isProfitable" flag
+ * @note check the returned object for the "isProfitable" flag
  * @throws {Error} if data validation failed
  */
 const buyLowSellHighRange = (data) => {
@@ -52,7 +52,7 @@ const buyLowSellHighRange = (data) => {
 /**
  * Return a human-readable message of buyLowSellHighRange() returned object.
  * @param {Array} range the range to convert
- * @returns {Object} with the formatted strings
+ * @returns {Object} the formatted strings
  */
 const toHumanReadableMessage = (range) => {
   if (!range.isProfitable) {
