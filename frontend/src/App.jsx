@@ -10,8 +10,6 @@
 
 import React, { useState } from "react";
 
-import dayjs from "dayjs";
-
 // while building (with vite) for production:
 //   warnings when minifying css:
 //    > <stdin>:14:0: warning: "@charset" must be the first rule in the file
@@ -19,15 +17,16 @@ import dayjs from "dayjs";
 import "react-datepicker/dist/react-datepicker.css";
 import "./App.css";
 
-import BuyLowSellHighResult from "./components/BuyLowSellHighResult";
-import AnalyzeButton from "./components/AnalyzeButton";
+import AnalysisReport from "./components/AnalysisReport";
 import DateRangeForm from "./components/DateRangeForm";
 import TitleHeader from "./components/TitleHeader";
+import ForkRibbon from "./components/ForkRibbon";
 
 import coinGeckoService from "./services/coingecko.service";
 import profitHelper from "./helpers/profit.helper";
 import tradingHelper from "./helpers/trading.helper";
 import trendHelper from "./helpers/trend.helper";
+import dateHelper from "./helpers/date.helper";
 
 // import logger from "./logger";
 // import data from "../data/range-2020-01-19to2020-01-21.json";
@@ -37,15 +36,7 @@ function App() {
     startDate: new Date("2021-12-02"),
     endDate: new Date("2021-12-24"),
   });
-  const [showResults, setShowResults] = useState(false);
-  const [results, setResults] = useState({});
-
-  /**
-   * Convert epoch to ISO-8606 date string.
-   * @param {Number} epoch the unix timestamp
-   * @returns a string
-   */
-  const toDateString = (epoch) => dayjs(epoch).format("YYYY-MM-DD");
+  const [analysis, setAnalysis] = useState();
 
   /**
    * Handle the "Analyze now" event.
@@ -67,18 +58,16 @@ function App() {
 
       const [time, volume] = tradingHelper.highestVolume(data);
 
-      setResults({
+      setAnalysis({
         trend: {
           longestBearish: trendHelper.longestBearishDownward(data),
         },
         trading: {
           highestVolume: volume.toLocaleString(),
-          date: toDateString(time),
+          date: dateHelper.toDateString(time),
         },
         buyLowSellHighRange: profitHelper.buyLowSellHighRange(data),
       });
-
-      setShowResults(true);
     } catch (error) {
       // eslint-disable-next-line no-alert
       window.alert(error);
@@ -96,72 +85,23 @@ function App() {
   };
 
   /**
-   * Layout the results.
-   * @component
+   * Show either the date range finder or the analysis report.
    */
-  const Results = () => (
-    <>
-      <div className="label-trend">
-        The <b>longest</b> bearish downward trend took{" "}
-        {results.trend.longestBearish} days.
-      </div>
-      <div className="label-trading">
-        {results.trading.date} had the <b>highest</b> trading volume for
-        BTC with the total of{" "}
-        {results.trading.highestVolume.toLocaleString()}€.
-      </div>
-      <BuyLowSellHighResult
-        buyLowSellHighRange={results.buyLowSellHighRange}
-      />
-    </>
+  const showDatesOrReport = !analysis ? (
+    <DateRangeForm
+      dateRange={dateRange}
+      onAnalyze={handleAnalyze}
+      onDateRangeChanged={handleDateRangeChanged}
+    />
+  ) : (
+    <AnalysisReport
+      dateRange={dateRange}
+      analysis={analysis}
+      onClickAnalyzeAgain={() => setAnalysis(null)}
+    />
   );
 
-  /**
-   * The "data processed" (date-range) footer.
-   * @component
-   */
-  const DataProcessedFooter = () => (
-    <div className="footer">
-      Data processed
-      <div className="date-range">
-        {toDateString(dateRange.startDate)} -{" "}
-        {toDateString(dateRange.endDate)}
-      </div>
-    </div>
-  );
-
-  /**
-   * Display the results.
-   * @component
-   */
-  const ResultsView = () => (
-    <div>
-      <Results />
-      <div>
-        <AnalyzeButton
-          text="Analyze again"
-          onClick={() => setShowResults(false)}
-        />
-        <DataProcessedFooter />
-      </div>
-    </div>
-  );
-
-  /**
-   * Fork me on GitHub ribbon.
-   * @component
-   */
-  const ForkMeRibbon = ({ url }) => (
-    <a
-      className="github-fork-ribbon"
-      href={url}
-      data-ribbon="Fork me on GitHub"
-      title="Fork me on GitHub"
-    >
-      Fork me on GitHub
-    </a>
-  );
-
+  // the App component.
   return (
     <div className="app">
       <header className="header">
@@ -170,19 +110,11 @@ function App() {
           subtitle="Scrooge's bitcoin market analyzer"
           description="the tool to analyze bitcoin market value for the given date
           range"
-          showResults={showResults}
+          analysis={analysis}
         />
-        {!showResults ? (
-          <DateRangeForm
-            dateRange={dateRange}
-            onAnalyze={handleAnalyze}
-            onDateRangeChanged={handleDateRangeChanged}
-          />
-        ) : (
-          <ResultsView />
-        )}
+        {showDatesOrReport}
       </header>
-      <ForkMeRibbon url="https://github.com/guendto/scrobit" />
+      <ForkRibbon url="https://github.com/guendto/scrobit" />
     </div>
   );
 }
