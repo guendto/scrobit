@@ -1,5 +1,5 @@
 {
-  "name": "react-eslint-prettier-vscode",
+  "name": "scrobit-frontend",
   "version": "0.0.0",
   "scripts": {
     "dev": "cross-env NODE_ENV=development vite",
